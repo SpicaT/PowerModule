@@ -1,7 +1,7 @@
 #import "RespringButtonController.h"
 #import <ControlCenterUIKit/CCUILabeledRoundButton.h>
 #import <ControlCenterUIKit/CCUIRoundButton.h>
-#import <spawn.h>
+#import <SpringBoard/SpringBoard+Addition.h>
 
 #define PLIST_PATH @"/var/mobile/Library/Preferences/com.muirey03.powermoduleprefs.plist"
 #define prefsDict [NSDictionary dictionaryWithContentsOfFile:PLIST_PATH]
@@ -57,10 +57,9 @@
 
 -(void)respring
 {
-    pid_t pid;
-    int status;
-    const char* args[] = {"killall", "-9", "backboardd", NULL};
-    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
-    waitpid(pid, &status, WEXITED);
+    SpringBoard *springBoard = (SpringBoard *)[UIApplication sharedApplication];
+    SBRestartTransitionRequest *request = [[NSClassFromString(@"SBRestartTransitionRequest") alloc] initWithRequester:@"PullToRespring" reason:@"Pulled"];
+	request.delay = 0.5f;
+	[springBoard.restartManager restartWithTransitionRequest:request];
 }
 @end

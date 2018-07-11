@@ -1,3 +1,6 @@
+TARGET = iphone:11.2:11.0
+ARCHS = arm64
+
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = PowerModule
